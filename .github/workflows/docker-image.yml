@@ -1,9 +1,9 @@
-name: Build and Push Docker Image
+name: Docker Image CI
 
 on:
   push:
     branches:
-      - main  # Replace with your desired branch name
+      - main
 
 jobs:
   build-and-push:
@@ -13,15 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to Docker registry
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: https://hub.docker.com  # Replace with your Docker registry URL
-
       - name: Build and push Docker image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build -t githubworkflowsetup_1 .
-          docker tag githubworkflowsetup_1 https://hub.docker.com/githubworkflowsetup_1
-          docker push https://hub.docker.com/githubworkflowsetup_1
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker build -t <docker.io/githubworkflowsetup_1:latest .
+          docker push docker.io/githubworkflowsetup_1:latest
