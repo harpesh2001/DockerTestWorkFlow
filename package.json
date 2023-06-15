@@ -1,0 +1,7 @@
+{
+    "name": "Docker-App",
+    "version": "1.0",
+    "dependencies": {
+        "express": "4.10.2"
+    }
+}
